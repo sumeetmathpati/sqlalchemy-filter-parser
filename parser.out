@@ -1,0 +1,136 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> expressions
+Rule 1     expressions -> expression
+Rule 2     expressions -> expression AND expressions
+Rule 3     expression -> IDENTIFIER op identifiers
+Rule 4     identifiers -> IDENTIFIER
+Rule 5     identifiers -> IDENTIFIER COMMA identifiers
+Rule 6     op -> OP
+
+Terminals, with rules where they appear
+
+AND                  : 2
+COMMA                : 5
+IDENTIFIER           : 3 4 5
+OP                   : 6
+error                : 
+
+Nonterminals, with rules where they appear
+
+expression           : 1 2
+expressions          : 2 0
+identifiers          : 3 5
+op                   : 3
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . expressions
+    (1) expressions -> . expression
+    (2) expressions -> . expression AND expressions
+    (3) expression -> . IDENTIFIER op identifiers
+
+    IDENTIFIER      shift and go to state 3
+
+    expressions                    shift and go to state 1
+    expression                     shift and go to state 2
+
+state 1
+
+    (0) S' -> expressions .
+
+
+
+state 2
+
+    (1) expressions -> expression .
+    (2) expressions -> expression . AND expressions
+
+    $end            reduce using rule 1 (expressions -> expression .)
+    AND             shift and go to state 4
+
+
+state 3
+
+    (3) expression -> IDENTIFIER . op identifiers
+    (6) op -> . OP
+
+    OP              shift and go to state 6
+
+    op                             shift and go to state 5
+
+state 4
+
+    (2) expressions -> expression AND . expressions
+    (1) expressions -> . expression
+    (2) expressions -> . expression AND expressions
+    (3) expression -> . IDENTIFIER op identifiers
+
+    IDENTIFIER      shift and go to state 3
+
+    expression                     shift and go to state 2
+    expressions                    shift and go to state 7
+
+state 5
+
+    (3) expression -> IDENTIFIER op . identifiers
+    (4) identifiers -> . IDENTIFIER
+    (5) identifiers -> . IDENTIFIER COMMA identifiers
+
+    IDENTIFIER      shift and go to state 8
+
+    identifiers                    shift and go to state 9
+
+state 6
+
+    (6) op -> OP .
+
+    IDENTIFIER      reduce using rule 6 (op -> OP .)
+
+
+state 7
+
+    (2) expressions -> expression AND expressions .
+
+    $end            reduce using rule 2 (expressions -> expression AND expressions .)
+
+
+state 8
+
+    (4) identifiers -> IDENTIFIER .
+    (5) identifiers -> IDENTIFIER . COMMA identifiers
+
+    AND             reduce using rule 4 (identifiers -> IDENTIFIER .)
+    $end            reduce using rule 4 (identifiers -> IDENTIFIER .)
+    COMMA           shift and go to state 10
+
+
+state 9
+
+    (3) expression -> IDENTIFIER op identifiers .
+
+    AND             reduce using rule 3 (expression -> IDENTIFIER op identifiers .)
+    $end            reduce using rule 3 (expression -> IDENTIFIER op identifiers .)
+
+
+state 10
+
+    (5) identifiers -> IDENTIFIER COMMA . identifiers
+    (4) identifiers -> . IDENTIFIER
+    (5) identifiers -> . IDENTIFIER COMMA identifiers
+
+    IDENTIFIER      shift and go to state 8
+
+    identifiers                    shift and go to state 11
+
+state 11
+
+    (5) identifiers -> IDENTIFIER COMMA identifiers .
+
+    AND             reduce using rule 5 (identifiers -> IDENTIFIER COMMA identifiers .)
+    $end            reduce using rule 5 (identifiers -> IDENTIFIER COMMA identifiers .)
+
