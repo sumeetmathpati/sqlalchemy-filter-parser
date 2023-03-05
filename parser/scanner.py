@@ -31,15 +31,3 @@ def t_error(t):
 
 # Build the lexer
 lexer = lex.lex()
-
-
-# Test it out
-# data = "as IN bn"
-
-# lexer.input(data)
-
-# while True:
-#     tok = lexer.token()
-#     if not tok:
-#         break      # No more input
-#     print(tok)

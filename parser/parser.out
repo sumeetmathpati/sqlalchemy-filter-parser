@@ -5,17 +5,16 @@ Grammar
 Rule 0     S' -> expressions
 Rule 1     expressions -> expression
 Rule 2     expressions -> expression AND expressions
-Rule 3     expression -> IDENTIFIER op identifiers
+Rule 3     expression -> IDENTIFIER OP identifiers
 Rule 4     identifiers -> IDENTIFIER
 Rule 5     identifiers -> IDENTIFIER COMMA identifiers
-Rule 6     op -> OP
 
 Terminals, with rules where they appear
 
 AND                  : 2
 COMMA                : 5
 IDENTIFIER           : 3 4 5
-OP                   : 6
+OP                   : 3
 error                : 
 
 Nonterminals, with rules where they appear
@@ -23,7 +22,6 @@ Nonterminals, with rules where they appear
 expression           : 1 2
 expressions          : 2 0
 identifiers          : 3 5
-op                   : 3
 
 Parsing method: LALR
 
@@ -32,7 +30,7 @@ state 0
     (0) S' -> . expressions
     (1) expressions -> . expression
     (2) expressions -> . expression AND expressions
-    (3) expression -> . IDENTIFIER op identifiers
+    (3) expression -> . IDENTIFIER OP identifiers
 
     IDENTIFIER      shift and go to state 3
 
@@ -56,78 +54,69 @@ state 2
 
 state 3
 
-    (3) expression -> IDENTIFIER . op identifiers
-    (6) op -> . OP
+    (3) expression -> IDENTIFIER . OP identifiers
 
-    OP              shift and go to state 6
+    OP              shift and go to state 5
 
-    op                             shift and go to state 5
 
 state 4
 
     (2) expressions -> expression AND . expressions
     (1) expressions -> . expression
     (2) expressions -> . expression AND expressions
-    (3) expression -> . IDENTIFIER op identifiers
+    (3) expression -> . IDENTIFIER OP identifiers
 
     IDENTIFIER      shift and go to state 3
 
     expression                     shift and go to state 2
-    expressions                    shift and go to state 7
+    expressions                    shift and go to state 6
 
 state 5
 
-    (3) expression -> IDENTIFIER op . identifiers
+    (3) expression -> IDENTIFIER OP . identifiers
     (4) identifiers -> . IDENTIFIER
     (5) identifiers -> . IDENTIFIER COMMA identifiers
 
-    IDENTIFIER      shift and go to state 8
+    IDENTIFIER      shift and go to state 7
 
-    identifiers                    shift and go to state 9
+    identifiers                    shift and go to state 8
 
 state 6
-
-    (6) op -> OP .
-
-    IDENTIFIER      reduce using rule 6 (op -> OP .)
-
-
-state 7
 
     (2) expressions -> expression AND expressions .
 
     $end            reduce using rule 2 (expressions -> expression AND expressions .)
 
 
-state 8
+state 7
 
     (4) identifiers -> IDENTIFIER .
     (5) identifiers -> IDENTIFIER . COMMA identifiers
 
     AND             reduce using rule 4 (identifiers -> IDENTIFIER .)
     $end            reduce using rule 4 (identifiers -> IDENTIFIER .)
-    COMMA           shift and go to state 10
+    COMMA           shift and go to state 9
+
+
+state 8
+
+    (3) expression -> IDENTIFIER OP identifiers .
+
+    AND             reduce using rule 3 (expression -> IDENTIFIER OP identifiers .)
+    $end            reduce using rule 3 (expression -> IDENTIFIER OP identifiers .)
 
 
 state 9
-
-    (3) expression -> IDENTIFIER op identifiers .
-
-    AND             reduce using rule 3 (expression -> IDENTIFIER op identifiers .)
-    $end            reduce using rule 3 (expression -> IDENTIFIER op identifiers .)
-
-
-state 10
 
     (5) identifiers -> IDENTIFIER COMMA . identifiers
     (4) identifiers -> . IDENTIFIER
     (5) identifiers -> . IDENTIFIER COMMA identifiers
 
-    IDENTIFIER      shift and go to state 8
+    IDENTIFIER      shift and go to state 7
 
-    identifiers                    shift and go to state 11
+    identifiers                    shift and go to state 10
 
-state 11
+state 10
 
     (5) identifiers -> IDENTIFIER COMMA identifiers .
 
